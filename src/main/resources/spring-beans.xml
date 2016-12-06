@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc
+    	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 自动装配：
+		default-autowire="byName" 根据类中属性名字自动装配，
+		default-autowire="byType" 根据类中属性类型自动装配，
+		default-autowire="constructor" 根据构造器（和byType类似）自动装配 
+	-->
+	<!-- 属性注入 -->
+	<bean id="people21" class="com.hnxyhcz.ioc.entity.People2">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="age" value="11"></property>
+	</bean>
+	<bean id="dog3" class="com.hnxyhcz.ioc.entity.Dog">
+		<property name="name" value="tom"></property>
+	</bean>
+	<bean id="dog" class="com.hnxyhcz.ioc.entity.Dog">
+		<property name="name" value="jack"></property>
+	</bean>
+
+	<bean id="people1" class="com.hnxyhcz.ioc.entity.People"></bean>
+	
+	<!-- 属性注入 -->
+	<bean id="people2" class="com.hnxyhcz.ioc.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="age" value="11"></property>
+	</bean>
+	
+	<!-- 构造方法注入(通过类型) -->
+	<bean id="people3" class="com.hnxyhcz.ioc.entity.People">
+		<constructor-arg type="int" value="2"></constructor-arg>
+		<constructor-arg type="String" value="李四"></constructor-arg>
+		<constructor-arg type="int" value="22"></constructor-arg>
+	</bean>
+	
+	<!-- 构造方法注入(通过索引) -->
+	<bean id="people4" class="com.hnxyhcz.ioc.entity.People">
+		<constructor-arg index="0" value="3"></constructor-arg>
+		<constructor-arg index="1" value="王五"></constructor-arg>
+		<constructor-arg index="2" value="33"></constructor-arg>
+	</bean>
+	
+	<!-- 构造方法注入(类型、索引联合使用) -->
+	<bean id="people5" class="com.hnxyhcz.ioc.entity.People">
+		<constructor-arg type="int" index="0" value="4"></constructor-arg>
+		<constructor-arg type="String" index="1" value="赵六"></constructor-arg>
+		<constructor-arg type="int" index="2" value="44"></constructor-arg>
+	</bean>
+	
+	<bean id="dog1" class="com.hnxyhcz.ioc.entity.Dog">
+		<property name="name" value="小黑"></property>
+	</bean>
+	
+	<!-- bean属性注入 -->
+	<bean id="people6" class="com.hnxyhcz.ioc.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="age" value="11"></property>
+		<property name="dog" ref="dog1"></property>
+	</bean>
+	
+	<!-- 内部bean属性注入 -->
+	<bean id="people7" class="com.hnxyhcz.ioc.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="age" value="11"></property>
+		<property name="dog">
+			<bean class="com.hnxyhcz.ioc.entity.Dog">
+				<property name="name" value="Tom"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 内部bean属性注入 -->
+	<bean id="people8" class="com.hnxyhcz.ioc.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="age" value="11"></property>
+		<property name="dog">
+			<null></null>
+		</property>
+	</bean>
+	
+	<!-- bean属性注入 -->
+	<bean id="people9" class="com.hnxyhcz.ioc.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="age" value="11"></property>
+		<property name="dog" ref="dog1"></property>
+		<property name="hobbies">
+			<list>
+				<value>唱歌</value>
+				<value>跳舞</value>
+			</list>
+		</property>
+		<property name="loves">
+			<set>
+				<value>唱歌2</value>
+				<value>唱歌2</value>
+				<value>跳舞2</value>
+			</set>
+		</property>
+		<property name="works">
+			<map>
+				<entry>
+					<key><value>上午</value></key>
+					<value>写代码</value>
+				</entry>
+				<entry>
+					<key><value>下午</value></key>
+					<value>测试代码</value>
+				</entry>
+			</map>
+		</property>
+		<property name="address">
+			<props>
+				<prop key="address1">aaaaa</prop>
+				<prop key="address2">bbbbb</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="abstractPeople" class="com.hnxyhcz.ioc.entity.People2" abstract="true">
+		<property name="className" value="高三一班"></property>
+		<property name="age" value="19"></property>
+	</bean>
+	<!-- depends-on 添加权限 -->
+	<bean id="zhangsan" parent="abstractPeople" depends-on="authority">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+	</bean>
+	
+	<bean id="lisi" parent="abstractPeople">
+		<property name="id" value="2"></property>
+		<property name="name" value="李四"></property>
+		<property name="age" value="20"></property>
+	</bean>
+	
+	<bean id="authority" class="com.hnxyhcz.ioc.service.Authority"></bean>
+</beans>

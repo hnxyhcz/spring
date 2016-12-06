@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc
+    	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="studentServiceAspect" class="com.hnxyhcz.aop.advice.StudentServiceAspect"></bean>
+	
+	<bean id="studentService" class="com.hnxyhcz.aop.service.impl.StudentServiceImpl"></bean>
+	
+	<aop:config>
+		<aop:aspect ref="studentServiceAspect">
+			<aop:pointcut expression="execution(* com.hnxyhcz.aop.service.*.*(..))" id="businessService"/>
+			<aop:before method="doBefore" pointcut-ref="businessService"/>
+			<aop:after method="doAfter" pointcut-ref="businessService"/>
+			<aop:around method="doAround" pointcut-ref="businessService"/>
+			<aop:after-returning method="doAfterReturn" pointcut-ref="businessService"/>
+			<aop:after-throwing method="doAfterThrowing" pointcut-ref="businessService" throwing="ex"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<bean id="zhangsan" class="com.hnxyhcz.aop.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="age" value="19"></property>
+		<property name="className" value="高三一班"></property>
+	</bean>
+	
+</beans>
